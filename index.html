@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>World | Земля — Донат</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Донат на сервер World | Земля. Поддержка Visa / Mastercard, привилегии ASTRA и другие бонусы.">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #020617 0, #020617 45%, #020617 60%, #000);
+      color: #f9fafb;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+    .wrapper { max-width: 960px; width: 100%; }
+    .card {
+      background: rgba(15,23,42,0.95);
+      border-radius: 24px;
+      padding: 24px 20px 20px;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+      border: 1px solid rgba(148,163,184,0.28);
+      backdrop-filter: blur(18px);
+    }
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .logo {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      background: linear-gradient(90deg, #22c55e, #0ea5e9);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .project-tag { font-size: 12px; color: #9ca3af; }
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .pill {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.45);
+      color: #e5e7eb;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .pill-main {
+      background: linear-gradient(90deg, #22c55e, #0ea5e9);
+      color: #020617;
+      border: none;
+      font-weight: 600;
+    }
+    .section-title { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+    .section-sub {
+      font-size: 13px;
+      color: #9ca3af;
+      margin-bottom: 16px;
+      max-width: 580px;
+    }
+
+    /* тарифы */
+    .tiers {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .tier {
+      border-radius: 16px;
+      padding: 12px 12px 10px;
+      border: 1px solid rgba(148,163,184,0.35);
+      background:
+        radial-gradient(circle at top left, rgba(34,197,94,0.12), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(14,165,233,0.15), transparent 55%),
+        rgba(15,23,42,0.9);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color .15s ease, box-shadow .15s ease, transform .1s ease;
+    }
+    .tier:hover {
+      border-color: #22c55e;
+      box-shadow: 0 0 0 1px rgba(34,197,94,0.3);
+      transform: translateY(-1px);
+    }
+    .tier.selected {
+      border-color: #22c55e;
+      box-shadow: 0 0 0 2px rgba(34,197,94,0.5);
+    }
+    .tier-badge {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.85);
+      border: 1px solid rgba(148,163,184,0.45);
+      color: #e5e7eb;
+    }
+    .tier-name {
+      font-size: 14px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tier-duration {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #9ca3af;
+    }
+    .tier-price {
+      font-size: 18px;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+    .tier-price span {
+      font-size: 11px;
+      font-weight: 500;
+      color: #9ca3af;
+      margin-left: 3px;
+    }
+    .tier-list {
+      font-size: 12px;
+      color: #cbd5f5;
+      margin-top: 4px;
+      margin-bottom: 4px;
+      list-style: none;
+    }
+    .tier-list li::before {
+      content: "•";
+      margin-right: 6px;
+      color: #22c55e;
+    }
+
+    .grid-bottom {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.5fr);
+      gap: 14px;
+      align-items: flex-start;
+    }
+    @media (max-width: 720px) {
+      .grid-bottom { grid-template-columns: 1fr; }
+    }
+    .pay-info {
+      font-size: 12px;
+      color: #9ca3af;
+      line-height: 1.5;
+    }
+    .pay-info strong { color: #e5e7eb; }
+
+    .discord-card {
+      border-radius: 16px;
+      padding: 10px 12px;
+      border: 1px solid rgba(148,163,184,0.4);
+      background: rgba(15,23,42,0.9);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 12px;
+    }
+    .discord-title { font-size: 13px; font-weight: 600; }
+    .btn-discord {
+      margin-top: 4px;
+      border-radius: 999px;
+      border: 1px solid rgba(59,130,246,0.9);
+      background: rgba(15,23,42,1);
+      color: #bfdbfe;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 7px 10px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: background .15s ease, color .15s ease;
+    }
+    .btn-discord:hover {
+      background: rgba(37,99,235,1);
+      color: #eff6ff;
+    }
+
+    .global-pay-box {
+      margin-top: 12px;
+      border-radius: 16px;
+      padding: 10px 12px;
+      border: 1px dashed rgba(148,163,184,0.4);
+      background: rgba(15,23,42,0.9);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 12px;
+    }
+    .global-pay-title {
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .global-pay-btn {
+      border: none;
+      border-radius: 999px;
+      padding: 9px 14px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      background: linear-gradient(90deg, #22c55e, #0ea5e9);
+      color: #020617;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 4px;
+      transition: opacity .15s ease, transform .05s ease;
+    }
+    .global-pay-btn:hover:not([disabled]) {
+      opacity: .9;
+      transform: translateY(-1px);
+    }
+    .global-pay-btn[disabled] {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+    .global-pay-selected {
+      font-size: 12px;
+      color: #9ca3af;
+    }
+
+    .footer {
+      font-size: 11px;
+      color: #6b7280;
+      margin-top: 14px;
+      text-align: center;
+    }
+    a { color: #38bdf8; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="card">
+      <header>
+        <div>
+          <div class="logo">World | Земля</div>
+          <div class="project-tag">Сервер в жанре «ВПИ» — поддержи проект и получи привилегии 💫</div>
+        </div>
+      </header>
+
+      <div class="pill-row">
+        <div class="pill pill-main">💳 Поддержка Visa / Mastercard*</div>
+        <div class="pill">🌍 RU / UA / EU карты</div>
+        <div class="pill">⚡ Быстрая выдача доната</div>
+        <div class="pill">🎮 Minecraft сервер</div>
+      </div>
+
+      <div class="section-title">Тарифы доната ASTRA</div>
+      <div class="section-sub">
+        Нажми на тариф, который хочешь купить. Внизу появится кнопка
+        «Оплатить выбранный тариф», которая переведёт тебя на страницу оплаты.
+      </div>
+
+      <!-- ТАРИФЫ -->
+      <section class="tiers">
+        <!-- ASTRA 2 недели -->
+        <article class="tier" data-plan="astra_2w" data-label="ASTRA • 2 недели (1 $)">
+          <div class="tier-badge">Старт</div>
+          <div class="tier-name">🌠 ASTRA</div>
+          <div class="tier-duration">Срок: 2 недели</div>
+          <div class="tier-price">
+            1 $ <span>(примерная цена, укажи свою)</span>
+          </div>
+          <ul class="tier-list">
+            <li>Отличный вариант, чтобы протестировать донат</li>
+            <li>Небольшой бонус к балансу и экономике</li>
+            <li>Косметические плюшки и приятные мелочи</li>
+          </ul>
+        </article>
+
+        <!-- ASTRA 1 месяц -->
+        <article class="tier" data-plan="astra_1m" data-label="ASTRA • 1 месяц (2.50 $)">
+          <div class="tier-badge">Популярно</div>
+          <div class="tier-name">🌠 ASTRA</div>
+          <div class="tier-duration">Срок: 1 месяц</div>
+          <div class="tier-price">
+            2.50 $ <span>(примерная цена, укажи свою)</span>
+          </div>
+          <ul class="tier-list">
+            <li>Оптимальный выбор по сроку</li>
+            <li>Приоритетный вход на сервер</li>
+            <li>Дополнительные бонусы к старту</li>
+          </ul>
+        </article>
+
+        <!-- ASTRA 3 месяца -->
+        <article class="tier" data-plan="astra_3m" data-label="ASTRA • 3 месяца (4.99 $)">
+          <div class="tier-badge">Выгодно</div>
+          <div class="tier-name">🌠 ASTRA</div>
+          <div class="tier-duration">Срок: 3 месяца</div>
+          <div class="tier-price">
+            4.99 $ <span>(примерная цена, укажи свою)</span>
+          </div>
+          <ul class="tier-list">
+            <li>Максимальная экономия на длительном сроке</li>
+            <li>Все преимущества предыдущих тарифов</li>
+            <li>Помощь развитию проекта на долгий срок</li>
+          </ul>
+        </article>
+      </section>
+
+      <div class="grid-bottom">
+        <!-- информация об оплате -->
+        <div>
+          <div class="pay-info">
+            <p>
+              <strong>*Как работает оплата:</strong><br>
+              Данные карты обрабатываются через платёжного провайдера (Stripe, Fondy, LiqPay, WayForPay и т.п.).
+              Владелец сервера не видит и не хранит ваши карточные данные.
+            </p>
+            <br>
+            <p>
+              После перехода по кнопке оплаты вы попадаете на защищённую страницу провайдера.
+              После успешного платежа сделайте скрин/чек и в случае чего свяжитесь с администрацией.
+            </p>
+            <br>
+            <p>
+              Оплачивая донат, вы соглашаетесь с правилами проекта. Донат — это добровольная поддержка сервера,
+              возврат средств возможен только по решению администрации и платёжного сервиса.
+            </p>
+          </div>
+
+          <!-- выбор и общая кнопка оплаты -->
+          <div class="global-pay-box">
+            <div class="global-pay-title">Оплата выбранного тарифа</div>
+            <div id="selectedPlanText" class="global-pay-selected">
+              Тариф не выбран. Нажмите на один из тарифов выше.
+            </div>
+            <button id="globalPayBtn" class="global-pay-btn" disabled>
+              💳 Оплатить выбранный тариф
+            </button>
+          </div>
+        </div>
+
+        <!-- блок дискорда -->
+        <div class="discord-card">
+          <div class="discord-title">Связь с администрацией</div>
+          <p>
+            Все вопросы по донату, выдаче привилегий и техническим моментам вы можете задать в нашем Discord.
+          </p>
+          <button class="btn-discord" id="discordButton">
+            Открыть Discord сервера
+          </button>
+          <p style="font-size:11px; color:#6b7280;">
+            Если донат не выдался автоматически — напишите в техподдержку, указав ник и чек/скрин оплаты.
+          </p>
+        </div>
+      </div>
+
+      <div class="footer">
+        © <span id="year"></span> World | Земля. Не является продуктом Mojang / Microsoft.  
+        Использование сайта означает согласие с правилами сервера.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ❗ Настрой свои ссылки на оплату
+    const paymentLinks = {
+      astra_2w: "https://example.com/pay-astra-2w",  // ASTRA 2 недели
+      astra_1m: "https://example.com/pay-astra-1m",  // ASTRA 1 месяц
+      astra_3m: "https://example.com/pay-astra-3m"   // ASTRA 3 месяца
+    };
+
+    // Ссылка на твой Discord
+    const discordLink = "https://discord.gg/your-server-link"; // замени на своё приглашение
+
+    let selectedPlan = null;
+    let selectedLabel = "";
+
+    const tierCards = document.querySelectorAll(".tier");
+    const selectedPlanText = document.getElementById("selectedPlanText");
+    const globalPayBtn = document.getElementById("globalPayBtn");
+
+    tierCards.forEach(card => {
+      card.addEventListener("click", () => {
+        // снять выделение со всех
+        tierCards.forEach(c => c.classList.remove("selected"));
+
+        // выделить текущий
+        card.classList.add("selected");
+
+        selectedPlan = card.dataset.plan;
+        selectedLabel = card.dataset.label || "";
+
+        selectedPlanText.textContent = "Выбран тариф: " + selectedLabel;
+        globalPayBtn.disabled = false;
+      });
+    });
+
+    globalPayBtn.addEventListener("click", () => {
+      if (!selectedPlan) return;
+
+      const url = paymentLinks[selectedPlan];
+      if (!url || url.includes("example.com")) {
+        alert(
+          "Ссылка на оплату для этого тарифа пока не настроена.\n" +
+          "Попросите администратора добавить URL платёжного провайдера в код сайта."
+        );
+        return;
+      }
+
+      window.location.href = url;
+    });
+
+    const discordButton = document.getElementById("discordButton");
+    if (discordButton) {
+      discordButton.addEventListener("click", () => {
+        if (!discordLink || discordLink.includes("your-server-link")) {
+          alert("Ссылка на Discord ещё не настроена. Добавьте её в коде сайта.");
+          return;
+        }
+        window.open(discordLink, "_blank");
+      });
+    }
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
