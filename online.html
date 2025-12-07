@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>World | Земля — Онлайн Discord</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Онлайн на Discord сервере World | Земля.">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #020617 0, #020617 45%, #020617 60%, #000);
+      color: #f9fafb;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+    .wrapper { max-width: 960px; width: 100%; }
+    .card {
+      background: rgba(15,23,42,0.95);
+      border-radius: 24px;
+      padding: 24px 20px;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+      border: 1px solid rgba(148,163,184,0.28);
+      backdrop-filter: blur(18px);
+    }
+
+    .title {
+      font-size: 24px;
+      font-weight: 800;
+      background: linear-gradient(90deg, #22c55e, #0ea5e9);
+      -webkit-background-clip: text;
+      color: transparent;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      font-size: 13px;
+      color: #9ca3af;
+      margin-bottom: 16px;
+    }
+
+    /* NAV */
+    .nav {
+      display: flex;
+      gap: 10px;
+      margin: 10px 0 20px;
+      flex-wrap: wrap;
+    }
+    .nav-btn {
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      color: #e5e7eb;
+      border: 1px solid rgba(148,163,184,0.35);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: 0.2s ease;
+    }
+    .nav-btn:hover {
+      background: rgba(255,255,255,0.16);
+      transform: translateY(-1px);
+    }
+    .nav-btn.active {
+      background: linear-gradient(90deg, #22c55e, #0ea5e9);
+      color: #020617;
+      border-color: transparent;
+    }
+
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .stat-card {
+      flex: 1 1 130px;
+      border-radius: 16px;
+      padding: 10px 12px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(148,163,184,0.35);
+      font-size: 13px;
+    }
+    .stat-label { color: #9ca3af; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; }
+    .stat-value { font-size: 18px; font-weight: 700; margin-top: 4px; }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+      margin-bottom: 18px;
+    }
+    .btn {
+      padding: 9px 14px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .btn-primary {
+      background: #5865F2;
+      color: #f9fafb;
+    }
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid rgba(148,163,184,0.6);
+      color: #e5e7eb;
+    }
+
+    .widget-box {
+      margin-top: 10px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.35);
+    }
+
+    .footer {
+      font-size: 11px;
+      color: #6b7280;
+      text-align: center;
+      margin-top: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="card">
+      <div class="title">World | Земля — Discord онлайн</div>
+
+      <nav class="nav">
+        <a href="index.html" class="nav-btn">💳 Донат</a>
+        <a href="online.html" class="nav-btn">📊 Онлайн Discord</a>
+        <a href="info.html" class="nav-btn">📘 Информация</a>
+      </nav>
+
+      <div class="subtitle">
+        Здесь можно посмотреть, сколько людей сейчас на сервере, и сразу зайти в Discord.
+      </div>
+
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-label">Сейчас онлайн</div>
+          <div class="stat-value" id="onlineCount">...</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Всего участников</div>
+          <div class="stat-value" id="memberCount">...</div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" id="openDiscord">
+          Открыть Discord сервер
+        </button>
+        <a href="index.html" style="text-decoration:none;">
+          <button class="btn btn-secondary" type="button">
+            ⬅ Назад к донату
+          </button>
+        </a>
+      </div>
+
+      <div class="widget-box">
+        <iframe
+          id="discordWidget"
+          src=""
+          width="100%"
+          height="350"
+          allowtransparency="true"
+          frameborder="0"
+          sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
+        </iframe>
+      </div>
+
+      <div class="footer">
+        Данные по онлайну берутся из официального Discord-виджета сервера.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 👉 ВСТАВЬ СЮДА ID СВОЕГО СЕРВЕРА (цифры, НЕ инвайт)
+    const GUILD_ID = "ВСТАВЬ_СЮДА_ID_СЕРВЕРА";
+
+    // Инвайт
+    const discordInvite = "https://discord.gg/nGFRSTAghv";
+
+    // Подсветка активной вкладки
+    document.querySelector('a[href="online.html"]').classList.add("active");
+
+    // Настраиваем iframe с виджетом
+    const widgetIframe = document.getElementById("discordWidget");
+    widgetIframe.src = `https://discord.com/widget?id=${GUILD_ID}&theme=dark`;
+
+    // Кнопка "Открыть Discord"
+    document.getElementById("openDiscord").onclick = () => {
+      window.open(discordInvite, "_blank");
+    };
+
+    // Загружаем JSON-виджет, чтобы показать онлайн/всего
+    const onlineCountEl = document.getElementById("onlineCount");
+    const memberCountEl = document.getElementById("memberCount");
+
+    fetch(`https://discord.com/api/guilds/${GUILD_ID}/widget.json`)
+      .then(res => {
+        if (!res.ok) throw new Error("Widget disabled");
+        return res.json();
+      })
+      .then(data => {
+        const online = data.presence_count || (data.members ? data.members.length : "—");
+        const total = data.approximate_member_count || "—";
+        onlineCountEl.textContent = online;
+        memberCountEl.textContent = total;
+      })
+      .catch(() => {
+        onlineCountEl.textContent = "недоступно";
+        memberCountEl.textContent = "недоступно";
+      });
+  </script>
+</body>
+</html>
