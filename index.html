@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <title>World | Земля — Донат</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Донат на сервер World | Земля. Поддержка Visa / Mastercard через WayForPay.">
+  <meta name="description" content="Донат на сервер World | Земля. Поддержка Visa/Mastercard, WayForPay, Boosty.">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #020617 0, #020617 45%, #020617 60%, #000);
+      font-family: system-ui, sans-serif;
+      background: radial-gradient(circle at top, #020617, #000);
       color: #f9fafb;
       min-height: 100vh;
       display: flex;
@@ -20,23 +20,50 @@
     .card {
       background: rgba(15,23,42,0.95);
       border-radius: 24px;
-      padding: 24px 20px;
-      box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+      padding: 24px;
       border: 1px solid rgba(148,163,184,0.28);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.55);
       backdrop-filter: blur(18px);
     }
-
-    header { margin-bottom: 18px; }
     .logo {
       font-size: 26px;
       font-weight: 800;
-      text-transform: uppercase;
       background: linear-gradient(90deg, #22c55e, #0ea5e9);
       -webkit-background-clip: text;
       color: transparent;
+      margin-bottom: 10px;
     }
 
-    /* Тарифы */
+    /* NAVIGATION */
+    .nav {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .nav-btn {
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      color: #e5e7eb;
+      border: 1px solid rgba(148,163,184,0.35);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: 0.15s;
+    }
+    .nav-btn:hover {
+      background: rgba(255,255,255,0.16);
+      transform: translateY(-1px);
+    }
+    .nav-btn.active {
+      background: linear-gradient(90deg, #22c55e, #0ea5e9);
+      color: #020617;
+      border-color: transparent;
+    }
+
+    /* TIERS */
+    h2 { margin-bottom: 12px; }
     .tiers {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -44,91 +71,129 @@
       margin-bottom: 20px;
     }
     .tier {
-      border-radius: 16px;
       padding: 14px;
+      border-radius: 16px;
       border: 1px solid rgba(148,163,184,0.35);
       background: rgba(15,23,42,0.9);
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
       cursor: pointer;
-      transition: 0.15s ease;
+      transition: 0.15s;
     }
     .tier:hover { border-color: #22c55e; }
     .tier.selected {
       border-color: #22c55e;
       box-shadow: 0 0 0 2px rgba(34,197,94,0.4);
     }
-    .tier-price { font-size: 18px; font-weight: 700; }
+    .tier-price { font-size: 18px; font-weight: 700; margin-top: 4px; }
 
-    /* Оплата */
+    /* PAYMENT BOX */
     .pay-box {
+      padding: 16px;
       border-radius: 16px;
+      background: rgba(15,23,42,0.85);
       border: 1px dashed rgba(148,163,184,0.4);
-      padding: 12px;
       margin-bottom: 20px;
     }
     .pay-btn {
+      margin-top: 10px;
       width: 100%;
       padding: 10px;
+      border-radius: 999px;
+      background: linear-gradient(90deg,#22c55e,#0ea5e9);
+      border: none;
       font-size: 16px;
       font-weight: 700;
-      border: none;
-      border-radius: 999px;
       cursor: pointer;
-      background: linear-gradient(90deg, #22c55e, #0ea5e9);
-      color: #020617;
     }
-    .pay-btn:disabled {
-      opacity: .5;
-      cursor: not-allowed;
-    }
+    .pay-btn:disabled { opacity: .5; cursor: not-allowed; }
 
-    /* Чаевые */
-    .tips {
+    /* BOOSTY / WFP BUTTONS */
+    .pay-methods {
+      padding: 16px;
       border-radius: 16px;
-      background: rgba(15,23,42,0.9);
       border: 1px solid rgba(148,163,184,0.35);
-      padding: 14px;
+      background: rgba(15,23,42,0.85);
       margin-bottom: 20px;
     }
-    .tips button {
-      width: 100%;
+    .boosty-btn {
       padding: 10px;
-      font-size: 15px;
       border-radius: 999px;
-      border: none;
+      font-size: 15px;
       font-weight: 700;
       cursor: pointer;
-      background: linear-gradient(90deg, #eab308, #f59e0b);
-      color: #1f1f1f;
+      border: none;
+      background:#ff8c37;
+      color:#1b1b1b;
+    }
+    .otherpay-btn {
+      padding: 10px;
+      border-radius: 999px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor:pointer;
+      background: linear-gradient(90deg,#22c55e,#0ea5e9);
+      border:none;
+      color:#020617;
     }
 
-    /* Discord */
+    /* DISCORD BUTTON */
     .discord-card {
-      border-radius: 16px;
-      padding: 12px;
-      background: rgba(15,23,42,0.9);
       border: 1px solid rgba(148,163,184,0.35);
+      padding: 16px;
+      border-radius: 16px;
       margin-bottom: 20px;
     }
     .discord-btn {
-      margin-top: 8px;
-      width: 100%;
       padding: 10px;
-      font-size: 15px;
-      font-weight: 700;
       border-radius: 999px;
-      border: 1px solid #3b82f6;
       background: #1e293b;
+      border: 1px solid #3b82f6;
       color: #bfdbfe;
+      width: 100%;
       cursor: pointer;
+      font-weight: 600;
     }
-    .footer {
-      font-size: 11px;
-      color: #6b7280;
-      text-align: center;
-      margin-top: 10px;
+
+    /* MODAL */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.65);
+      display:none;
+      justify-content:center;
+      align-items:center;
+      z-index:999;
+    }
+    .modal {
+      width: 90%;
+      max-width: 360px;
+      padding: 20px;
+      background:#0f172a;
+      border-radius: 16px;
+      border: 1px solid rgba(148,163,184,0.4);
+    }
+    .modal input {
+      width: 100%;
+      padding: 8px;
+      border-radius: 8px;
+      background: #020617;
+      border: 1px solid rgba(148,163,184,0.5);
+      color: white;
+      margin-bottom:10px;
+    }
+    .modal button {
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: none;
+      font-weight: 600;
+      cursor:pointer;
+    }
+    .modal-confirm {
+      background: linear-gradient(90deg,#22c55e,#0ea5e9);
+    }
+    .modal-cancel {
+      background:#1e293b;
+      border:1px solid rgba(148,163,184,0.4);
+      color:#e5e7eb;
     }
   </style>
 </head>
@@ -137,114 +202,123 @@
   <div class="wrapper">
     <div class="card">
 
-      <header>
-        <div class="logo">World | Земля — Донат</div>
-      </header>
+      <div class="logo">World | Земля — Донат</div>
+
+      <!-- NAVIGATION -->
+      <nav class="nav">
+        <a href="index.html" class="nav-btn active">💳 Донат</a>
+        <a href="online.html" class="nav-btn">📊 Онлайн Discord</a>
+        <a href="online.html" class="nav-btn">📘 Информация</a>
+      </nav>
 
       <h2>Выбери привилегию</h2>
 
-      <section class="tiers">
-        <article class="tier" data-plan="astra_2w" data-label="ASTRA • 2 недели (1$)">
-          <b>🌠 ASTRA</b>
-          <span>Срок: 2 недели</span>
-          <div class="tier-price">1 $</div>
-        </article>
+      <!-- TARIFFS -->
+      <div class="tiers">
+        <div class="tier" data-plan="astra_2w"><b>🌠 ASTRA</b> <span>2 недели</span><div class="tier-price">1 $</div></div>
+        <div class="tier" data-plan="astra_1m"><b>🌠 ASTRA</b> <span>1 месяц</span><div class="tier-price">2.5 $</div></div>
+        <div class="tier" data-plan="astra_3m"><b>🌠 ASTRA</b> <span>3 месяца</span><div class="tier-price">4.99 $</div></div>
+      </div>
 
-        <article class="tier" data-plan="astra_1m" data-label="ASTRA • 1 месяц (2.5$)">
-          <b>🌠 ASTRA</b>
-          <span>Срок: 1 месяц</span>
-          <div class="tier-price">2.5 $</div>
-        </article>
+      <!-- PAYMENT METHODS -->
+      <div class="pay-methods">
+        <h3 style="margin-bottom:10px;">🌍 Выберите способ оплаты</h3>
 
-        <article class="tier" data-plan="astra_3m" data-label="ASTRA • 3 месяца (4.99$)">
-          <b>🌠 ASTRA</b>
-          <span>Срок: 3 месяца</span>
-          <div class="tier-price">4.99 $</div>
-        </article>
-      </section>
+        <button class="boosty-btn" onclick="window.open('https://boosty.to/world_zemlya','_blank')">
+          🇷🇺 Оплата из РФ (Boosty)
+        </button>
 
-      <!-- Оплата выбранного тарифа -->
+        <button class="otherpay-btn" id="otherCountriesBtn">
+          🌐 Оплата из других стран (WayForPay)
+        </button>
+      </div>
+
+      <!-- PAY BOX -->
       <div class="pay-box">
         <div id="selectedPlanText">Тариф не выбран</div>
-        <button id="globalPayBtn" class="pay-btn" disabled>Оплатить тариф</button>
+        <button class="pay-btn" id="globalPayBtn" disabled>Продолжить оплату →</button>
       </div>
 
-      <!-- Чаевые -->
-      <div class="tips">
-        <h3>💛 Чаевые (поддержка сервера)</h3>
-        <p style="font-size:12px; color:#cbd5e1; margin-bottom:8px;">
-          Если хочешь просто поддержать проект без покупки привилегии — нажми сюда.
-        </p>
-        <button id="tipsBtn">Отправить чаевые</button>
-      </div>
-
-      <!-- Discord -->
+      <!-- DISCORD -->
       <div class="discord-card">
-        <h3>Discord сервера</h3>
-        <p style="font-size:12px; color:#cbd5e1;">Связь с администрацией, новости и поддержка.</p>
-        <button class="discord-btn" id="discordButton">Открыть Discord</button>
-      </div>
-
-      <div class="footer">
-        © <span id="year"></span> World | Земля
+        <b>Discord сервера</b>
+        <p>Новости, поддержка, выдача доната.</p>
+        <button class="discord-btn" onclick="window.open('https://discord.gg/nGFRSTAghv','_blank')">Открыть Discord</button>
       </div>
 
     </div>
   </div>
 
-  <script>
-    /* --- ТВОИ ССЫЛКИ WayForPay --- */
-    const paymentLinks = {
-      astra_2w: "https://secure.wayforpay.com/button/baf903a6001fe",
-      astra_1m: "https://secure.wayforpay.com/button/bd7e5252208be",
-      astra_3m: "https://secure.wayforpay.com/button/bf244eea2c408"
+  <!-- MODAL -->
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal">
+      <h3 style="margin-bottom:10px;">Введите данные</h3>
+
+      <input id="nickname" placeholder="Ваш ник (@username)">
+      <input id="email" placeholder="Ваш email">
+
+      <div style="color:#f87171;font-size:12px;margin-bottom:8px;" id="modalError"></div>
+
+      <div style="display:flex;gap:8px;justify-content:flex-end;">
+        <button class="modal-cancel" id="cancelBtn">Отмена</button>
+        <button class="modal-confirm" id="confirmBtn">Продолжить</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+  /* PAYMENT LINKS */
+  const paymentLinks = {
+    astra_2w: "https://secure.wayforpay.com/button/baf903a6001fe",
+    astra_1m: "https://secure.wayforpay.com/button/bd7e5252208be",
+    astra_3m: "https://secure.wayforpay.com/button/bf244eea2c408"
+  };
+
+  let selected = null;
+
+  // SELECT TIER
+  const cards = document.querySelectorAll(".tier");
+  const payBtn = document.getElementById("globalPayBtn");
+  const selectedText = document.getElementById("selectedPlanText");
+
+  cards.forEach(c => {
+    c.onclick = () => {
+      cards.forEach(x => x.classList.remove("selected"));
+      c.classList.add("selected");
+      selected = c.dataset.plan;
+      selectedText.textContent = "Выбрано: " + selected;
+      payBtn.disabled = false;
     };
+  });
 
-    /* --- Чаевые (добавь свою ссылку!) --- */
-    const tipsLink = "ЗДЕСЬ_БУДЕТ_ССЫЛКА_НА_ЧАЕВЫЕ";
+  /* PAY METHOD: OTHER COUNTRIES */
+  document.getElementById("otherCountriesBtn").onclick = () => {
+    window.scrollTo({ top: document.querySelector(".pay-box").offsetTop - 20, behavior: "smooth" });
+  };
 
-    /* --- Discord --- */
-    const discordLink = "https://discord.gg/nGFRSTAghv";
+  /* MODAL */
+  const modal = document.getElementById("modalBackdrop");
+  const confirmBtn = document.getElementById("confirmBtn");
+  const cancelBtn = document.getElementById("cancelBtn");
+  const err = document.getElementById("modalError");
 
-    /* Логика выбора тарифа */
-    let selectedPlan = null;
+  payBtn.onclick = () => { modal.style.display = "flex"; };
 
-    const tierCards = document.querySelectorAll(".tier");
-    const selectedPlanText = document.getElementById("selectedPlanText");
-    const globalPayBtn = document.getElementById("globalPayBtn");
+  cancelBtn.onclick = () => { modal.style.display = "none"; };
 
-    tierCards.forEach(card => {
-      card.addEventListener("click", () => {
-        tierCards.forEach(c => c.classList.remove("selected"));
-        card.classList.add("selected");
+  confirmBtn.onclick = () => {
+    const nick = nickname.value.trim();
+    const email = document.getElementById("email").value.trim();
 
-        selectedPlan = card.dataset.plan;
-        selectedPlanText.textContent = "Выбрано: " + card.dataset.label;
-        globalPayBtn.disabled = false;
-      });
-    });
+    if (!nick || !email) {
+      err.textContent = "Заполните оба поля!";
+      return;
+    }
 
-    globalPayBtn.addEventListener("click", () => {
-      if (!selectedPlan) return;
-      window.location.href = paymentLinks[selectedPlan];
-    });
-
-    /* Чаевые */
-    document.getElementById("tipsBtn").onclick = () => {
-      if (tipsLink.includes("ЗДЕСЬ")) {
-        alert("Ссылка для чаевых ещё не настроена!");
-        return;
-      }
-      window.location.href = tipsLink;
-    };
-
-    /* Discord */
-    document.getElementById("discordButton").onclick = () => {
-      window.open(discordLink, "_blank");
-    };
-
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
+    window.location.href =
+      paymentLinks[selected] + `?nickname=${encodeURIComponent(nick)}&email=${encodeURIComponent(email)}`;
+  };
+</script>
 
 </body>
 </html>
