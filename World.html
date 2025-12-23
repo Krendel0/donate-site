@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World | Земля - Премиум подписка</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a1931 0%, #1a3a5f 30%, #2d5a8c 100%);
+            color: #fff;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Навигация */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+            color: #4cc9f0;
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(to right, #4cc9f0, #4361ee);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: #a5d8ff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+            padding: 10px 15px;
+            border-radius: 10px;
+        }
+
+        .nav-link:hover {
+            color: #4cc9f0;
+            background: rgba(76, 201, 240, 0.1);
+        }
+
+        .nav-link.active {
+            color: #4cc9f0;
+            background: rgba(76, 201, 240, 0.1);
+            border: 1px solid rgba(76, 201, 240, 0.3);
+        }
+
+        /* Баннер сервера */
+        .server-banner {
+            position: relative;
+            height: 300px;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 3px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .banner-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .server-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .server-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 20px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            object-fit: cover;
+            background-color: #1a3a5f;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .server-details h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #ffffff, #a5d8ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .server-description {
+            font-size: 1.2rem;
+            color: #a5d8ff;
+            max-width: 600px;
+            margin-top: 10px;
+            text-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Страницы */
+        .page {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Основной контент главной страницы */
+        .donation-tiers {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .tier-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(145deg, rgba(26, 58, 95, 0.8), rgba(10, 25, 49, 0.8));
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .tier-card:hover {
+            transform: translateY(-10px);
+            border-color: #4361ee;
+            box-shadow: 0 15px 30px rgba(67, 97, 238, 0.3);
+        }
+
+        .tier-card.popular {
+            border-color: #ffd700;
+            transform: scale(1.05);
+            background: linear-gradient(145deg, rgba(45, 90, 140, 0.9), rgba(26, 58, 95, 0.9));
+        }
+
+        .tier-card.popular:hover {
+            transform: scale(1.05) translateY(-10px);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: 20px;
+            right: -35px;
+            background: linear-gradient(45deg, #ffd700, #ff9500);
+            color: #000;
+            padding: 8px 40px;
+            transform: rotate(45deg);
+            font-weight: bold;
+            font-size: 0.9rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .tier-icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: #4cc9f0;
+        }
+
+        .tier-card h3 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            color: #72efdd;
+        }
+
+        .tier-duration {
+            font-size: 1.3rem;
+            color: #a5d8ff;
+            margin-bottom: 15px;
+        }
+
+        .tier-price {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin: 20px 0;
+            color: #ffd166;
+            text-shadow: 0 2px 10px rgba(255, 209, 102, 0.3);
+            background: linear-gradient(to right, #ffd166, #ff9500);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .tier-features {
+            list-style: none;
+            text-align: left;
+            margin: 25px 0;
+            padding-left: 10px;
+        }
+
+        .tier-features li {
+            margin-bottom: 12px;
+            padding-left: 30px;
+            position: relative;
+            font-size: 1rem;
+        }
+
+        .tier-features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4ade80;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .btn-tier {
+            background: linear-gradient(to right, #4361ee, #3a0ca3);
+            color: white;
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
+            width: 100%;
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 50px;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-tier:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(67, 97, 238, 0.6);
+        }
+
+        /* Выбор оплаты */
+        .payment-section {
+            background: linear-gradient(145deg, rgba(26, 58, 95, 0.8), rgba(10, 25, 49, 0.8));
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 50px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .selected-tier-info {
+            background: rgba(67, 97, 238, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            border: 2px solid #4361ee;
+            display: none;
+            background: linear-gradient(145deg, rgba(67, 97, 238, 0.2), rgba(58, 12, 163, 0.2));
+        }
+
+        .selected-tier-info.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        .payment-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .payment-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            cursor: pointer;
+            background: linear-gradient(145deg, rgba(45, 90, 140, 0.8), rgba(26, 58, 95, 0.8));
+        }
+
+        .payment-card:hover {
+            border-color: #4361ee;
+            background: rgba(67, 97, 238, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .payment-card.selected {
+            border-color: #4ade80;
+            background: rgba(74, 222, 128, 0.1);
+            transform: scale(1.02);
+            box-shadow: 0 10px 20px rgba(74, 222, 128, 0.3);
+        }
+
+        .payment-card.boosty {
+            border-color: #ff5a5f;
+        }
+
+        .payment-card.monobank {
+            border-color: #fcee21;
+        }
+
+        .payment-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .boosty .payment-icon {
+            color: #ff5a5f;
+        }
+
+        .boosty-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .boosty-ruble {
+            font-size: 3.5rem;
+            color: #ff5a5f;
+            margin-bottom: 10px;
+            text-shadow: 0 3px 10px rgba(255, 90, 95, 0.3);
+        }
+
+        .boosty-text {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #ff5a5f;
+            background: linear-gradient(45deg, #ff5a5f, #ff9500);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            padding: 5px 15px;
+            border-radius: 10px;
+            background-color: rgba(255, 90, 95, 0.1);
+        }
+
+        .monobank .payment-icon {
+            color: #fcee21;
+        }
+
+        .payment-card h3 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, #ffffff, #a5d8ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .payment-card p {
+            margin-bottom: 25px;
+            opacity: 0.9;
+        }
+
+        .pay-btn {
+            background: linear-gradient(to right, #4ade80, #22c55e);
+            color: white;
+            box-shadow: 0 5px 15px rgba(74, 222, 128, 0.4);
+            font-size: 1.2rem;
+            padding: 18px 50px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: none;
+        }
+
+        .pay-btn.show {
+            display: inline-block;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Социальные сети */
+        .social-section {
+            background: linear-gradient(145deg, rgba(26, 58, 95, 0.8), rgba(10, 25, 49, 0.8));
+            border-radius: 25px;
+            padding: 50px;
+            margin: 50px 0;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .social-card {
+            background: linear-gradient(145deg, rgba(45, 90, 140, 0.8), rgba(26, 58, 95, 0.8));
+            border-radius: 20px;
+            padding: 35px;
+            width: 220px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+            text-decoration: none;
+            color: white;
+        }
+
+        .social-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .social-card.discord {
+            background: linear-gradient(145deg, #5865F2, #4752c4);
+            border-color: #5865F2;
+        }
+
+        .social-card.discord:hover {
+            border-color: #ffffff;
+            box-shadow: 0 15px 30px rgba(88, 101, 242, 0.5);
+        }
+
+        .social-card.telegram {
+            background: linear-gradient(145deg, #26A5E4, #1e8bc3);
+            border-color: #26A5E4;
+        }
+
+        .social-card.telegram:hover {
+            border-color: #ffffff;
+            box-shadow: 0 15px 30px rgba(38, 165, 228, 0.5);
+        }
+
+        .social-card.tiktok {
+            background: linear-gradient(145deg, #000000, #333333);
+            border-color: #ff0050;
+        }
+
+        .social-card.tiktok:hover {
+            border-color: #ffffff;
+            box-shadow: 0 15px 30px rgba(255, 0, 80, 0.5);
+        }
+
+        .social-icon {
+            font-size: 4.5rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .social-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, #ffffff, #a5d8ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .social-card p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Преимущества */
+        .benefits-section {
+            margin-bottom: 40px;
+        }
+
+        .benefits-section h2 {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: #72efdd;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .benefit-card {
+            background: linear-gradient(145deg, rgba(26, 58, 95, 0.8), rgba(10, 25, 49, 0.8));
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .benefit-card h4 {
+            color: #4cc9f0;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .benefit-card p {
+            color: #a5d8ff;
+        }
+
+        /* Футер */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            background: linear-gradient(to bottom, rgba(10, 25, 49, 0.8), rgba(26, 58, 95, 0.8));
+            border-radius: 20px;
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .copyright {
+            margin-bottom: 15px;
+            font-size: 1rem;
+            color: #a5d8ff;
+        }
+
+        .site-info {
+            margin-top: 30px;
+            font-size: 0.95rem;
+            color: #a5d8ff;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 5px solid #4cc9f0;
+            background: linear-gradient(145deg, rgba(45, 90, 140, 0.5), rgba(26, 58, 95, 0.5));
+        }
+
+        .security-note {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            color: #4ade80;
+            font-size: 1.1rem;
+        }
+
+        .footer-social {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .footer-social a {
+            color: white;
+            font-size: 2rem;
+            transition: transform 0.3s, color 0.3s;
+            text-decoration: none;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-social a:hover {
+            transform: scale(1.2);
+        }
+
+        .footer-social .discord:hover {
+            background: #5865F2;
+            color: white;
+        }
+
+        .footer-social .telegram:hover {
+            background: #26A5E4;
+            color: white;
+        }
+
+        .footer-social .tiktok:hover {
+            background: #000000;
+            color: #ff0050;
+        }
+
+        /* Уведомления */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            animation: slideIn 0.3s ease;
+            max-width: 400px;
+            border-left: 5px solid;
+            display: none;
+        }
+
+        .notification.success {
+            background: rgba(34, 197, 94, 0.9);
+            border-color: #16a34a;
+            display: block;
+        }
+
+        .notification.error {
+            background: rgba(239, 68, 68, 0.9);
+            border-color: #dc2626;
+            display: block;
+        }
+
+        .notification.info {
+            background: rgba(59, 130, 246, 0.9);
+            border-color: #2563eb;
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .server-info {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px;
+            }
+            
+            .server-avatar {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .server-details h1 {
+                font-size: 2rem;
+            }
+            
+            .server-description {
+                font-size: 1rem;
+            }
+            
+            .social-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            
+            .social-card {
+                width: 90%;
+                max-width: 300px;
+                padding: 25px;
+            }
+            
+            .tier-card.popular {
+                transform: none;
+            }
+            
+            .tier-card.popular:hover {
+                transform: translateY(-10px);
+            }
+            
+            .payment-section, .social-section {
+                padding: 25px;
+            }
+            
+            .payment-icon {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .footer-social {
+                gap: 15px;
+            }
+            
+            .footer-social a {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Навигация -->
+        <nav class="navbar">
+            <a href="#" class="logo" onclick="showPage('home')">
+                <i class="fas fa-globe-americas logo-icon"></i>
+                <span class="logo-text">World | Земля</span>
+            </a>
+            
+            <div class="nav-links">
+                <a href="#" class="nav-link active" onclick="showPage('home')">
+                    <i class="fas fa-home"></i> Главная
+                </a>
+                <a href="#" class="nav-link" onclick="showPage('donate')">
+                    <i class="fas fa-crown"></i> Подписка
+                </a>
+                <a href="#" class="nav-link" onclick="showPage('social')">
+                    <i class="fas fa-users"></i> Сообщество
+                </a>
+            </div>
+        </nav>
+
+        <!-- Главная страница -->
+        <div class="page active" id="home-page">
+            <!-- Баннер и аватар сервера -->
+            <div class="server-banner">
+                <img src="https://i.postimg.cc/HkZYKw5m/photo-2025-11-21-20-47-00.jpg" class="banner-image">
+                <div class="server-info">
+                    <img src="https://i.postimg.cc/pLqrvNwJ/Countryballs.png" class="server-avatar">
+                    <div class="server-details">
+                        <h1>World | Земля</h1>
+                        <p class="server-description">
+                            🌍 World | Земля - Сервер в жанре "ВПИ", с адекватной администрацией, индивидуальный стиль, и идея. Мы тебя ждем!! ✨
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Преимущества доната -->
+            <section class="benefits-section" style="margin-bottom: 40px;">
+                <h2><i class="fas fa-gift"></i> Преимущества премиум подписки Astra</h2>
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <h4>1. Priority Support</h4>
+                        <p>Моментальные ответы от персонала — твои обращения всегда в приоритете.</p>
+                    </div>
+                    
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-earlybirds"></i>
+                        </div>
+                        <h4>2. Early Access</h4>
+                        <p>После вайпа именно ты первым выбираешь страну и начинаешь путь к вершине.</p>
+                    </div>
+                    
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <h4>3. Starting Bonus</h4>
+                        <p>Получаешь стартовый капитал для развития экономики и бизнеса.</p>
+                    </div>
+                    
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <h4>4. Unique Role & Tag</h4>
+                        <p>Уникальная роль @ᴀꜱᴛʀᴀ и особый цвет ника, заметный всем.</p>
+                    </div>
+                    
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-gift"></i>
+                        </div>
+                        <h4>5. Monthly Mystery Gift</h4>
+                        <p>Каждый месяц — случайный бонус: деньги, ресурсы, кейсы или редкий предмет.</p>
+                    </div>
+                    
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-microphone-alt"></i>
+                        </div>
+                        <h4>6. Voice Priority</h4>
+                        <p>Приоритет в голосовых каналах — твой голос слышен первым.</p>
+                    </div>
+                    
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h4>7. Booster Reward</h4>
+                        <p>Получай игровую валюту через команду !collect.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Страница подписки -->
+        <div class="page" id="donate-page">
+            <h2><i class="fas fa-crown"></i> Выберите тариф премиум подписки</h2>
+            <div class="donation-tiers">
+                <div class="tier-card" data-tier="astra-2weeks" data-price="1">
+                    <div class="tier-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>Astra</h3>
+                    <div class="tier-duration">2 недели</div>
+                    <div class="tier-price">1$</div>
+                    <ul class="tier-features">
+                        <li>Priority Support</li>
+                        <li>Early Access</li>
+                        <li>Starting Bonus</li>
+                        <li>Unique Role & Tag</li>
+                        <li>Voice Priority</li>
+                    </ul>
+                    <button class="btn btn-tier" onclick="selectTier('astra-2weeks', 'Astra 2 недели', '1$')">
+                        <i class="fas fa-shopping-cart"></i> Выбрать этот план
+                    </button>
+                </div>
+                
+                <div class="tier-card popular" data-tier="astra-1month" data-price="2.50">
+                    <div class="popular-badge">ПОПУЛЯРНЫЙ</div>
+                    <div class="tier-icon">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h3>Astra</h3>
+                    <div class="tier-duration">1 месяц</div>
+                    <div class="tier-price">2.50$</div>
+                    <ul class="tier-features">
+                        <li>Все преимущества 2-недельного плана</li>
+                        <li>Monthly Mystery Gift</li>
+                        <li>Booster Reward</li>
+                        <li>Расширенный стартовый бонус</li>
+                        <li>Дополнительные привилегии</li>
+                    </ul>
+                    <button class="btn btn-tier" onclick="selectTier('astra-1month', 'Astra 1 месяц', '2.50$')">
+                        <i class="fas fa-crown"></i> Выбрать этот план
+                    </button>
+                </div>
+                
+                <div class="tier-card" data-tier="astra-3months" data-price="4.99">
+                    <div class="tier-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3>Astra</h3>
+                    <div class="tier-duration">3 месяца</div>
+                    <div class="tier-price">4.99$</div>
+                    <ul class="tier-features">
+                        <li>Все преимущества месячного плана</li>
+                        <li>Экономия 33%</li>
+                        <li>Эксклюзивный VIP-статус</li>
+                        <li>Персональный менеджер</li>
+                        <li>Участие в закрытых событиях</li>
+                        <li>Особые награды каждый месяц</li>
+                    </ul>
+                    <button class="btn btn-tier" onclick="selectTier('astra-3months', 'Astra 3 месяца', '4.99$')">
+                        <i class="fas fa-bolt"></i> Выбрать этот план
+                    </button>
+                </div>
+            </div>
+
+            <!-- Выбор способа оплаты -->
+            <section class="payment-section">
+                <h2><i class="fas fa-credit-card"></i> Выберите способ оплаты</h2>
+                
+                <div class="selected-tier-info" id="selectedTierInfo">
+                    <h3><i class="fas fa-check-circle"></i> Выбран тариф: <span id="selectedTierName">-</span></h3>
+                    <p>Сумма к оплате: <strong id="selectedTierPrice">-</strong></p>
+                    
+                    <p style="margin-top: 10px; color: #a5d8ff;">
+                        <i class="fas fa-info-circle"></i> После выбора способа оплаты нажмите кнопку "Перейти к оплате"
+                    </p>
+                </div>
+                
+                <div class="payment-options">
+                    <div class="payment-card boosty" onclick="selectPayment('boosty')">
+                        <div class="payment-icon">
+                            <div class="boosty-icon">
+                                <div class="boosty-ruble">
+                                    <i class="fas fa-rouble-sign"></i>
+                                    <i class="fas fa-rouble-sign"></i>
+                                    <i class="fas fa-rouble-sign"></i>
+                                </div>
+                                <div class="boosty-text">
+                                    <i class="fas fa-rocket"></i> BOOSTY.TO
+                                </div>
+                            </div>
+                        </div>
+                        <h3>Boosty</h3>
+                        <p>Для пользователей из России и стран СНГ. Оплата в рублях через карты, YooMoney, QIWI и другие популярные способы.</p>
+                        <div class="security-note">
+                            <i class="fas fa-lock"></i>
+                            <span>Безопасная оплата через Boosty</span>
+                        </div>
+                    </div>
+                    
+                    <div class="payment-card monobank" onclick="selectPayment('monobank')">
+                        <div class="payment-icon">
+                            <i class="fas fa-hryvnia"></i>
+                        </div>
+                        <h3>Monobank</h3>
+                        <p>Для пользователей из Украины. Оплата в гривнах через карты Monobank, ПриватБанк и другие украинские банки. Также доступна оплата через Google Pay и Apple Pay.</p>
+                        <div class="security-note">
+                            <i class="fas fa-lock"></i>
+                            <span>Безопасная оплата через Monobank</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 40px;">
+                    <button id="payButton" class="btn pay-btn" onclick="processPayment()">
+                        <i class="fas fa-external-link-alt"></i> Перейти к оплате
+                    </button>
+                </div>
+            </section>
+        </div>
+
+        <!-- Страница социальных сетей -->
+        <div class="page" id="social-page">
+            <section class="social-section">
+                <h2><i class="fas fa-users"></i> Присоединяйтесь к нашему сообществу</h2>
+                <p style="font-size: 1.2rem; color: #a5d8ff; max-width: 700px; margin: 0 auto 30px;">
+                    Следите за нашими обновлениями, участвуйте в событиях и общайтесь с другими игроками!
+                </p>
+                
+                <div class="social-links">
+                    <!-- ЗДЕСЬ ВСТАВЬ СВОИ ССЫЛКИ НА СОЦИАЛЬНЫЕ СЕТИ -->
+                    <a href="https://discord.gg/ВАШ_ССЫЛКА_НА_DISCORD" target="_blank" class="social-card discord">
+                        <i class="fab fa-discord social-icon"></i>
+                        <h3>Discord</h3>
+                        <p>Присоединяйтесь к нашему Discord серверу</p>
+                    </a>
+                    
+                    <a href="https://t.me/ВАШ_ССЫЛКА_НА_TELEGRAM" target="_blank" class="social-card telegram">
+                        <i class="fab fa-telegram social-icon"></i>
+                        <h3>Telegram</h3>
+                        <p>Подписывайтесь на наш Telegram канал</p>
+                    </a>
+                    
+                    <a href="https://tiktok.com/@ВАШ_ССЫЛКА_НА_TIKTOK" target="_blank" class="social-card tiktok">
+                        <i class="fab fa-tiktok social-icon"></i>
+                        <h3>TikTok</h3>
+                        <p>Следите за нами в TikTok</p>
+                    </a>
+                </div>
+            </section>
+        </div>
+
+        <!-- Футер -->
+        <footer>
+            <div class="copyright">
+                <p>© 2023 - <span id="currentYear"></span> World | Земля. Все права защищены.</p>
+            </div>
+            
+            <div class="site-info">
+                <p><i class="fas fa-info-circle"></i> Сайт работает с 2023 года и продолжает развиваться. Все платежи защищены и обрабатываются через безопасные платежные системы. 
+                Контент предоставляется в соответствии с условиями использования. Любое копирование материалов запрещено без письменного разрешения.</p>
+                <p style="margin-top: 10px; color: #4ade80;">
+                    <i class="fas fa-shield-alt"></i> Мы гарантируем безопасность всех транзакций и защиту ваших данных
+                </p>
+            </div>
+            
+            <div class="footer-social">
+                <!-- ЗДЕСЬ ВСТАВЬ СВОИ ССЫЛКИ НА СОЦИАЛЬНЫЕ СЕТИ -->
+                <a href="https://discord.gg/ВАШ_ССЫЛКА_НА_DISCORD" target="_blank" class="discord">
+                    <i class="fab fa-discord"></i>
+                </a>
+                <a href="https://t.me/ВАШ_ССЫЛКА_НА_TELEGRAM" target="_blank" class="telegram">
+                    <i class="fab fa-telegram"></i>
+                </a>
+                <a href="https://tiktok.com/@ВАШ_ССЫЛКА_НА_TIKTOK" target="_blank" class="tiktok">
+                    <i class="fab fa-tiktok"></i>
+                </a>
+            </div>
+            
+            <div class="security-note">
+                <i class="fas fa-shield-check"></i>
+                <span>Все платежи защищены SSL-шифрованием</span>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Текущий год для футера
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        
+        // Переменные для хранения состояния
+        let selectedTier = null;
+        let selectedPayment = null;
+        let originalPrice = 0;
+        
+        // Ссылки для оплаты
+        const paymentLinks = {
+            'boosty': 'https://boosty.to/world_zemlya',
+            'monobank': 'https://send.monobank.ua/jar/xNTSjFhns'
+        };
+
+        // Функция отображения страницы
+        function showPage(pageId) {
+            // Скрыть все страницы
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Показать выбранную страницу
+            document.getElementById(pageId + '-page').classList.add('active');
+            
+            // Обновить активную ссылку в навигации
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            const activeLink = document.querySelector(`.nav-link[onclick*="${pageId}"]`);
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+            
+            return false; // Предотвращаем переход по ссылке
+        }
+
+        // Функция выбора тарифа
+        function selectTier(tierId, tierName, tierPriceStr) {
+            selectedTier = { 
+                id: tierId, 
+                name: tierName, 
+                originalPrice: parseFloat(tierPriceStr.replace('$', ''))
+            };
+            
+            // Обновляем информацию о выбранном тарифе
+            document.getElementById('selectedTierName').textContent = tierName;
+            originalPrice = selectedTier.originalPrice;
+            
+            // Показываем только оригинальную цену
+            document.getElementById('selectedTierPrice').textContent = `${originalPrice}$`;
+            
+            // Показываем блок с информацией
+            document.getElementById('selectedTierInfo').classList.add('show');
+            
+            // Сбрасываем выбор оплаты
+            if (selectedPayment) {
+                document.querySelectorAll('.payment-card').forEach(card => {
+                    card.classList.remove('selected');
+                });
+                selectedPayment = null;
+                document.getElementById('payButton').classList.remove('show');
+            }
+            
+            // Показать уведомление
+            showNotification(`Вы выбрали тариф: ${tierName} за ${tierPriceStr}`);
+        }
+
+        // Функция выбора способа оплаты
+        function selectPayment(paymentMethod) {
+            if (!selectedTier) {
+                showNotification('Сначала выберите тариф подписки!', 'error');
+                return;
+            }
+            
+            selectedPayment = paymentMethod;
+            
+            // Снимаем выделение со всех карточек оплаты
+            document.querySelectorAll('.payment-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Выделяем выбранную карточку
+            event.currentTarget.classList.add('selected');
+            
+            // Показываем кнопку оплаты
+            document.getElementById('payButton').classList.add('show');
+            
+            // Показываем уведомление
+            const methodName = paymentMethod === 'boosty' ? 'Boosty' : 'Monobank';
+            showNotification(`Выбран способ оплаты: ${methodName}`);
+        }
+
+        // Функция обработки платежа
+        function processPayment() {
+            if (!selectedTier || !selectedPayment) {
+                showNotification('Пожалуйста, выберите тариф и способ оплаты!', 'error');
+                return;
+            }
+            
+            const methodName = selectedPayment === 'boosty' ? 'Boosty' : 'Monobank';
+            const priceToPay = originalPrice;
+            
+            // Показываем финальное сообщение
+            const message = `
+                <strong>Перенаправление на оплату...</strong><br><br>
+                Тариф: ${selectedTier.name}<br>
+                Сумма: ${priceToPay}$<br>
+                Способ оплаты: ${methodName}<br><br>
+                <span style="color: #4ade80;">Вы будете перенаправлены на страницу оплаты</span>
+            `;
+            
+            showNotification(message, 'info', 3000);
+            
+            // Перенаправление на реальную платежную систему
+            setTimeout(() => {
+                if (paymentLinks[selectedPayment]) {
+                    window.open(paymentLinks[selectedPayment], '_blank');
+                } else {
+                    showNotification('Ошибка: ссылка на оплату не найдена', 'error');
+                }
+                
+                // Сбрасываем выбор
+                selectedTier = null;
+                selectedPayment = null;
+                document.getElementById('selectedTierInfo').classList.remove('show');
+                document.getElementById('payButton').classList.remove('show');
+            }, 2000);
+        }
+
+        // Функция показа уведомлений
+        function showNotification(message, type = 'info', duration = 3000) {
+            // Создаем элемент уведомления
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = message;
+            
+            document.body.appendChild(notification);
+            
+            // Удаляем уведомление через указанное время
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, duration);
+        }
+    </script>
+</body>
+</html>
